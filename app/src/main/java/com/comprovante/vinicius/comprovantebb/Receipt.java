@@ -2,6 +2,7 @@ package com.comprovante.vinicius.comprovantebb;
 
 
 import android.content.Context;
+import android.util.Log;
 
 
 import com.itextpdf.text.pdf.PdfReader;
@@ -43,7 +44,7 @@ public class Receipt {
         PdfReaderContentParser parser = new PdfReaderContentParser(reader);
 
 
-
+        //Log.w(">>>>>>","iniciio");
 
         for (int i = 1; i <= reader.getNumberOfPages(); i++) {
             contentOriginal = parser.processContent(i, new SimpleTextExtractionStrategy()).getResultantText();
@@ -58,16 +59,16 @@ public class Receipt {
 
                 String[] coluns = lines[1].split(" ");
                 coluns = coluns[0].split("/");
-                rd = Integer.parseInt(coluns[0]);
+                /*rd = Integer.parseInt(coluns[0]);  NAO TA MAIS EXTRAINDO DATA
                 rm = Integer.parseInt(coluns[1]);
-                ry = Integer.parseInt(coluns[2]);
+                ry = Integer.parseInt(coluns[2]);*/
             }
             else{
                 String[] coluns = lines[0].split(" ");
                 coluns = coluns[0].split("/");
-                rd = Integer.parseInt(coluns[0]);
+                /*rd = Integer.parseInt(coluns[0]);
                 rm = Integer.parseInt(coluns[1]);
-                ry = Integer.parseInt(coluns[2]);
+                ry = Integer.parseInt(coluns[2]);*/
             }
             content = content.replace("            COMPROVANTE DE PAGAMENTO\n","");
             content = content.replace("                                                \n" +
@@ -100,6 +101,15 @@ public class Receipt {
                     "Informacoes, reclamacoes, cancelamento de       \n" +
                     "cartao, outros produtos e servicos de Ouvidoria.","");
 
+            content = content.replace("Com Ourocard voce parcela em ate 18x nas lojas\n" +
+                    "iPlace. Promocao valida ate 31/03/2019.\n" +
+                    "Saiba mais em\n" +
+                    "beneficiosourocard.com.br.","");
+
+            content = content.replace("Pague suas compras com Ourocard Visa e apoie\n" +
+                    "uma causa sem pagar nada a mais por isso.\n" +
+                    "Escolha uma em vaidevisa.visa.com.br/causas","");
+
             String secondLine = content.substring(49,99);
             String secondLineNew = secondLine.replace("                             ","   COMPROVANTE DE PAGAMENTO  ");
             secondLineNew = secondLineNew.replace("      SEGUNDA VIA       ","COMPROVANTE DE PAGAMENTO");
@@ -113,14 +123,14 @@ public class Receipt {
                 }
                 else if(lines[j].contains("Valor Total") || lines[j].contains("VALOR TOTAL") || lines[j].contains("VALOR COBRADO") || lines[j].contains("Valor     :")){
                     String[] coluns = lines[j].split(" ");
-                    value = Float.parseFloat(coluns[coluns.length-1].replace(',','.'));
+                    //value = Float.parseFloat(coluns[coluns.length-1].replace(',','.'));
                 }
                 else if(lines[j].contains("Data do pagamento") || lines[j].contains("DATA DA TRANSFERENCIA") || lines[j].contains("DATA DO PAGAMENTO") || lines[j].contains("Data      :")){
                     String[] coluns = lines[j].split(" ");
                     coluns = coluns[coluns.length-1].split("/");
-                    pd = Integer.parseInt(coluns[0]);
+                    /*pd = Integer.parseInt(coluns[0]);
                     pm = Integer.parseInt(coluns[1]);
-                    py = Integer.parseInt(coluns[2]);
+                    py = Integer.parseInt(coluns[2]);*/
                 }
             }
 
@@ -134,18 +144,18 @@ public class Receipt {
             else if(content.contains("Pagamento Fatura Cartao")){
                 name = "CARTAO DE CRED PETROBRAS";
             }
-            else if(content.contains("CLARO TV")){
+            /*else if(content.contains("CLARO TV")){
                 name = "CLARO";
-            }
+            }*/
             else if(content.contains("SANASA")){
                 name = "SANASA";
             }
             else if(content.contains("CPFL")){
                 name = "CPFL";
             }
-            else if(content.contains("TELECOMUNICACOES")){
+            /*else if(content.contains("TELECOMUNICACOES")){
                 name = "VIVO";
-            }
+            }*/
             else if(content.contains("TIM")){
                 name = "TIM";
             }
