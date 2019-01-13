@@ -16,6 +16,7 @@ import java.util.List;
 
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -33,11 +34,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class ReadFilesReceipt {
 
 
-    public static String FOLDER = "BB/comprovantes";
-    public static String SSTRING = "Comprovante_";
-    public static String ESTRING = ".pdf";
-    public static String SAVEPATH = "ComprovantesBB";
-    public static String CUTEDGE = "\n< >cortar aqui< > < > < > < > < > < > < > < > < \n";
+    private static String FOLDER = "BB/comprovantes";
+    private static String SSTRING = "Comprovante_";
+    private static String ESTRING = ".pdf";
+    private static String SAVEPATH = "ComprovantesBB";
+    private static String CUTEDGE = "\n< >cortar aqui< > < > < > < > < > < > < > < > < \n";
 
 
     public static int COLUNS = 3;
@@ -53,7 +54,7 @@ public class ReadFilesReceipt {
     private List<Receipt> recp;
 
 
-    public ReadFilesReceipt(int sd, int sm, int sy, int ed, int em, int ey, Context ctx) {
+    ReadFilesReceipt(int sd, int sm, int sy, int ed, int em, int ey, Context ctx) {
 
         mem = Environment.getExternalStorageDirectory();
         mem = new File(mem, FOLDER);
@@ -62,6 +63,15 @@ public class ReadFilesReceipt {
 
 
         if (mem.exists()) {
+
+            File folder = new File(Environment.getExternalStorageDirectory() +
+                    File.separator + SAVEPATH);
+            if (!folder.exists())
+                if(!folder.mkdirs()) {
+                    Toast.makeText(ctx, "no folder created", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
 
             FilenameFilter textFilter = new FilenameFilter() {
                 public boolean accept(File dir, String name) {
@@ -90,8 +100,6 @@ public class ReadFilesReceipt {
             }
 
 
-            File folder = new File(Environment.getExternalStorageDirectory() +
-                    File.separator + SAVEPATH);
             fil = new File(folder, start + "_" + end + ".pdf");
 
 
@@ -184,20 +192,18 @@ public class ReadFilesReceipt {
 
                 document.close();
 
-
-
             } catch (FileNotFoundException | DocumentException e) {
                 e.printStackTrace();
             }
 
 
         } //else
-            //Log.w("@#@#@#@#@#@#@#@#", "nonexist path");
+            //Log.w("@#@#@#@#@#@#@#@#", "nonexist BB path");
 
 
     }
 
-    public int find(LinkedList<Receipt> l0,LinkedList<Receipt> l1,LinkedList<Receipt> l2){
+    private int find(LinkedList<Receipt> l0, LinkedList<Receipt> l1, LinkedList<Receipt> l2){
 
         int c0, c1, c2;
         c1 = c2 = c0 = 0;
