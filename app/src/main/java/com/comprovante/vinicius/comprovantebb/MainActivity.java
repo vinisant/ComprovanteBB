@@ -1,13 +1,22 @@
 package com.comprovante.vinicius.comprovantebb;
 
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.PermissionRequest;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
@@ -72,27 +81,40 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.generate:
-                if(sy*10000 + sm*100 + sd <= ey*10000 + em*100 + ed) {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+                    if (sy * 10000 + sm * 100 + sd <= ey * 10000 + em * 100 + ed) {
 
-                    ReadFilesReceipt r = new ReadFilesReceipt(sd,  sm,  sy,  ed,  em,  ey, this.getApplicationContext());
-                    Toast.makeText(getApplicationContext(), sd + "/" + sm + "/" + sy + "\n" + ed + "/" + em + "/" + ey +"\n -'--", Toast.LENGTH_LONG).show();
+                        ReadFilesReceipt r = new ReadFilesReceipt(sd, sm, sy, ed, em, ey, this.getApplicationContext());
+                        Toast.makeText(getApplicationContext(), "start: " + sd + "/" + sm + "/" + sy + "\n" + "end: " + ed + "/" + em + "/" + ey, Toast.LENGTH_LONG).show();
 
 
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("application/pdf");
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("application/pdf");
 
-                    Uri uri = Uri.parse("file://" + r.getFilePDF().getAbsolutePath());
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                        //Uri uri = Uri.parse("file://" + r.getFilePDF().getAbsolutePath()); //api 23 or lower
 
-                    try {
-                        startActivity(Intent.createChooser(intent, "Enviar PDF"));
-                    } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Error: Cannot open or share created PDF report.", Toast.LENGTH_SHORT).show();
-                    }
+                        Uri uri = FileProvider.getUriForFile(MainActivity.this,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                r.getFilePDF());
 
+                        intent.putExtra(Intent.EXTRA_STREAM, uri);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "print PDF "+ sm +"/"+ sy);
+
+
+                        try {
+                            startActivity(Intent.createChooser(intent, "Send PDF"));
+                        } catch (Exception e) {
+                            Toast.makeText(getApplicationContext(), "Error: Cannot open or share created PDF report.", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else
+                        Toast.makeText(getApplicationContext(), "start date < end date", Toast.LENGTH_LONG).show();
                 }
                 else
-                    Toast.makeText(getApplicationContext(), "data menor\n"+(sy*10000 + sm*100 + sd)+"\n"+(ey*10000 + em*100 + ed) ,Toast.LENGTH_LONG).show();
+                        ActivityCompat.requestPermissions(this,
+                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                0);
+
                 return true;
 
         }
