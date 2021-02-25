@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidProjects-ComprovanteBB.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidProjects-ComprovanteBB.iml" group="ComprovanteBB" />
       <module fileurl="file://$PROJECT_DIR$/ComprovanteBB.iml" filepath="$PROJECT_DIR$/ComprovanteBB.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/ComprovanteBB-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/ComprovanteBB-app.iml" group="ComprovanteBB/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

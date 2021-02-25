@@ -86,6 +86,39 @@ public class Receipt {
                     "Informacoes, reclamacoes, cancelamento de       \n" +
                     "cartao, outros produtos e servicos de Ouvidoria.","");
 
+
+
+
+
+
+            content = content.replace("Central de Atendimento BB","");
+            content = content.replace("4004 0001 Capitais e regioes metropolitanas","");
+            content = content.replace("0800 729 0001 Demais localidades","");
+            content = content.replace("Consultas, informacoes e servicos transacionais.","");
+            //content = content.replace("SAC","");
+            content = content.replace("0800 729 0722","");
+            content = content.replace("Informacoes, reclamacoes e cancelamento de","");
+            content = content.replace("produtos e servicos.","");
+            //content = content.replace("Ouvidoria","");
+            content = content.replace("0800 729 5678","");
+            content = content.replace("Reclamacoes nao solucionadas nos canais","");
+            content = content.replace("habituais: agencia, SAC e demais canais de","");
+            content = content.replace("atendimento.","");
+            content = content.replace("Atendimento a Deficientes Auditivos ou de Fala","");
+            content = content.replace("0800 729 0088","");
+            content = content.replace("Informacoes, reclamacoes, cancelamento de","");
+            content = content.replace("cartao, outros produtos e servicos de Ouvidoria.","");
+
+            //content = content.replace("SAC","-------------");
+            //content = content.replace("Ouvidoria","-------------");
+
+            //content = content.replace("","");
+
+
+
+
+
+
             content = content.replace("Com Ourocard voce parcela em ate 18x nas lojas\n" +
                     "iPlace. Promocao valida ate 31/03/2019.\n" +
                     "Saiba mais em\n" +
